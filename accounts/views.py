@@ -1,8 +1,11 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
-from .forms import UserRegistrationForm
+from .forms import UserRegistrationForm, LoginForm
 from django.views import View
+from django.contrib.auth import get_user_model
 
+
+User = get_user_model()
 
 
 # class CreateUserView(View):
@@ -26,3 +29,7 @@ class RegisterView(View):
             return redirect('login')
 
         return render(request, 'register.html',{'form': form})
+
+class LoginView(View):
+    form_class = LoginForm
+    template_name = 'accounts/login.html'

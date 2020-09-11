@@ -24,7 +24,9 @@
             </div>
             {%endfor%}
             {%endif%}
+
             {%if user.is_authenticated%}
+            <li><h5>Jesteś zalogowany jako  {{user.email}}</h5></li>
             <li><a href="{% url 'logout'%}" class="btn btn--small btn--without-border">Wyloguj</a></li>
             {%else%}
             <li><a href="{% url 'login'%}" class="btn btn--small btn--without-border">Zaloguj</a></li>

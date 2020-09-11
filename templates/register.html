@@ -12,7 +12,7 @@
 
     <section class="login-page">
       <h2>Załóż konto</h2>
-      <form method="post" action="">
+      <form method="post" action="{% url 'registration' %}">
           {%csrf_token%}
         <div class="form-group">
             {{form|crispy}}

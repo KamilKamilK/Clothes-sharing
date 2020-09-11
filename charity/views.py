@@ -28,7 +28,7 @@ class LandingPageView(View):
 
         ctx = {
             # 'posts': posts,
-            'list': list,
+            # 'list': Institution.objects.filter(isnull=True),
             'donations': Donation.objects.all(),
             'quantity': Donation.objects.aggregate(Sum('quantity')),
             'fundations': fundations,

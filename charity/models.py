@@ -1,10 +1,14 @@
 from datetime import date
 
-from django.contrib.auth.models import User
+from django.conf import settings
+from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import MultipleObjectsReturned
 from django.core.validators import RegexValidator
 from django.db import models
 from django.utils import timezone
 
+from django.contrib.auth.backends import ModelBackend, UserModel
+from django.db.models import Q
 
 class Category(models.Model):
     name = models.CharField(max_length=64, unique=True, null=False, blank=False)
@@ -45,4 +49,7 @@ class Donation(models.Model):
     pick_up_date = models.DateField(default=date.today)
     pick_up_time = models.TimeField(default=timezone.now)
     pick_up_comment = models.TextField(max_length=255, null=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, default=None)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, default=None)
+
+
+
