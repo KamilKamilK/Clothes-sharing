@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
-
+{%load crispy_forms_tags%}
   <body>
   {% block header %}
     <header>
@@ -10,20 +10,26 @@
 
     <section class="login-page">
       <h2>Zaloguj się</h2>
-      <form>
+      <form method="POST">
+        {%csrf_token%}
         <div class="form-group">
-          <input type="email" name="email" placeholder="Email" />
-        </div>
-        <div class="form-group">
-          <input type="password" name="password" placeholder="Hasło" />
-          <a href="#" class="btn btn--small btn--without-border reset-password">Przypomnij hasło</a>
-        </div>
+          {{form|crispy}}
+<!--          <input type="email" name="email" placeholder="Email" />-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--          <input type="password" name="password" placeholder="Hasło" />-->
+<!--          <a href="#" class="btn btn&#45;&#45;small btn&#45;&#45;without-border reset-password">Przypomnij hasło</a>-->
+<!--        </div>-->
 
         <div class="form-group form-group--buttons">
-          <a href="#" class="btn btn--without-border">Załóż konto</a>      
+
           <button class="btn" type="submit">Zaloguj się</button> 
         </div>
+        </div>
       </form>
+         <small class="text-muted">
+          Nie masz jeszcze konta ?<a href="{% url 'registration'%}" class="btn">Załóż konto</a>
+              </small>
     </section>
 {% endblock%}
 

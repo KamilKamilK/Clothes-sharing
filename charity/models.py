@@ -1,27 +1,36 @@
-from datetime import datetime
+from datetime import date
 
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 from django.db import models
-
-# TYPES = {
-#     1: 'Fundacja',
-#     2: 'Organizacja pozarządowa',
-#     3: 'Zbiórka lokalna'
-# }
+from django.utils import timezone
 
 
 class Category(models.Model):
     name = models.CharField(max_length=64, unique=True, null=False, blank=False)
 
+    def __str__(self):
+        return self.name
+
 
 class Institution(models.Model):
+    FUNDATION = 'fu'
+    ORGANIZATION = 'or'
+    COLLECTION = 'ct'
+
+    TYPE_CHOICES = (
+        (FUNDATION, 'Fundacja'),
+        (ORGANIZATION, 'Organizacja pozarządowa'),
+        (COLLECTION, 'Zbiórka lokalna')
+    )
     name = models.CharField(max_length=128, unique=True, null=False, blank=False)
     description = models.TextField(null=True, blank=True)
-    #  It is also possible to make use of the Enum Functional API with the caveat that labels are automatically generated
-    type = models.IntegerField('type', 'Fundacja Organizacja pozarządowa Zbiórka lokalna ')
+
+    type = models.CharField(choices=TYPE_CHOICES, max_length=2)
     categories = models.ManyToManyField(Category)
 
+    def __str__(self):
+        return self.name
 
 class Donation(models.Model):
     quantity = models.IntegerField(null=False, blank=False)
@@ -33,7 +42,7 @@ class Donation(models.Model):
     phone_number = models.CharField(validators=[phone_regex], max_length=17, blank=True)
     city = models.CharField(max_length=128, null=False, blank=False)
     zip_code = models.CharField("zip code", max_length=5, default="00-000", blank=True, null=True)
-    pick_up_date = models.DateField(null=False, blank=False, default=datetime.date)
-    pick_up_time = models.TimeField(null=False, blank=False, default=datetime.time)
+    pick_up_date = models.DateField(default=date.today)
+    pick_up_time = models.TimeField(default=timezone.now)
     pick_up_comment = models.TextField(max_length=255, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, default=None)
