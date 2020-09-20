@@ -226,7 +226,7 @@ document.addEventListener("DOMContentLoaded", function() {
       this.slides.forEach(slide => {
         slide.classList.remove("active");
 
-        if (slide.dataset.step == this.currentStep) {
+        if (slide.dataset.step === this.currentStep) {
           slide.classList.add("active");
         }
       });
@@ -253,3 +253,20 @@ document.addEventListener("DOMContentLoaded", function() {
     new FormSteps(form);
   }
 });
+
+// ######################  PRÓBY AJAX
+// $(function (){
+//   let $categories = $("form-group--checkbox");
+//
+//   $.ajax({
+//     type: 'GET',
+//     url: '/donation',
+//     success : function (categories) {
+//       $.each(category, function (i, categories){
+//         $categories.append('<label><input type="checkbox" name="categories" value="" /> <span class="checkbox"></span> <span class="description">"+ category.name +"</span></label>')
+//       });
+//     }
+//   });
+// });
+
+//POST --> serialize -->

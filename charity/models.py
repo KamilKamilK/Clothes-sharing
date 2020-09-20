@@ -29,7 +29,6 @@ class Institution(models.Model):
     )
     name = models.CharField(max_length=128, unique=True, null=False, blank=False)
     description = models.TextField(null=True, blank=True)
-
     type = models.CharField(choices=TYPE_CHOICES, max_length=2)
     categories = models.ManyToManyField(Category)
 
@@ -39,8 +38,8 @@ class Institution(models.Model):
 class Donation(models.Model):
     quantity = models.IntegerField(null=False, blank=False)
     categories = models.ManyToManyField(Category)
-    institution = models.ForeignKey(Institution, on_delete=models.CASCADE)
-    adress = models.TextField(max_length=256, null=False, blank=False)
+    institution = models.ForeignKey(Institution, on_delete=models.CASCADE, related_name='dotations')
+    address = models.TextField(max_length=256, null=False, blank=False)
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$',
                                  message="Phone number must be entered in the format: '+999999999'. Up to 13 digits allowed.")
     phone_number = models.CharField(validators=[phone_regex], max_length=17, blank=True)

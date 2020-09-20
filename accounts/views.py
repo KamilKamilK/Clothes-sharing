@@ -1,12 +1,10 @@
 from django.contrib import messages
-from django.shortcuts import render, redirect
-from .forms import UserRegistrationForm, LoginForm
-from django.views import View
 from django.contrib.auth import get_user_model
-
+from django.shortcuts import render, redirect
+from django.views import View
+from .forms import UserRegistrationForm, LoginForm
 
 User = get_user_model()
-
 
 # class CreateUserView(View):
 #     model = User
@@ -15,12 +13,11 @@ User = get_user_model()
 #     template_name = 'register.html'
 
 class RegisterView(View):
-    def get(self, request,*args,**kwargs):
+    def get(self, request, *args, **kwargs):
         form = UserRegistrationForm
         return render(request, 'register.html', {'form': form})
 
-    def post(self,request,*args,**kwargs):
-
+    def post(self, request, *args, **kwargs):
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             form.save()
@@ -28,7 +25,7 @@ class RegisterView(View):
             messages.success(request, f'Konto stworzone dla {email}')
             return redirect('login')
 
-        return render(request, 'register.html',{'form': form})
+        return render(request, 'register.html', {'form': form})
 
 class LoginView(View):
     form_class = LoginForm

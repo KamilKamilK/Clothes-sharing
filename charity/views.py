@@ -1,13 +1,14 @@
-from django.core.paginator import Paginator
 from django.db.models import Sum
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.views import View
 
-from charity.models import Donation, Institution
+from charity.forms import CategoryForm, AjaxForm
+from charity.models import Donation, Institution, Category
 
 
 class LandingPageView(View):
-    def get(self, request):
+    def get(self, request, *args, **kwargs):
         fundations = Institution.objects.filter(type=Institution.FUNDATION)
 
         # list = []
@@ -28,7 +29,7 @@ class LandingPageView(View):
 
         ctx = {
             # 'posts': posts,
-            # 'list': Institution.objects.filter(isnull=True),
+            'list': Institution.objects.filter(dotations__isnull=False),
             'donations': Donation.objects.all(),
             'quantity': Donation.objects.aggregate(Sum('quantity')),
             'fundations': fundations,
@@ -39,12 +40,43 @@ class LandingPageView(View):
 
 
 class AddDonationView(View):
-    def get(self, request):
+    def get(self, request, *args, **kwargs):
+        form_category = CategoryForm
+
         ctx = {
-            'donations': Donation.objects.all()
+            'donations': Donation.objects.all(),
+            'categories': Category.objects.all(),
+            'institutions': Institution.objects.all(),
+            'form_category': form_category,
         }
         return render(request, 'form.html', ctx)
 
+    def post(self, request, *args, **kwargs):
+        form_category = CategoryForm(request.POST)
+        if form_category.is_valid():
+            form_category.save()
+            name = form_category.cleaned_data.get('name')
+
+        return render(request, 'form.html', {'form_category': form_category})
 
 
+class AjaxView(View):
+    form_class = AjaxForm
+    template_name = "ajax.html"
 
+    def get(self, *args, **kwargs):
+        form = self.form_class()
+        donations = Donation.objects.all()
+        return render(self.request, self.template_name, {"form": form, "donations": donations})
+
+    def post(self, *args, **kwargs):
+        if self.request.is_ajax():
+            form = self.form_class(self.request.POST)
+            import pdb; pdb.set_trace()
+            pdb.set_trace()
+            if form.is_valid():
+                print(form.data)
+                form.save()
+                return JsonResponse({}, status=200)
+            return JsonResponse({}, status=400)
+        return JsonResponse({}, status=400)
