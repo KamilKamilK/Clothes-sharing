@@ -1,7 +1,9 @@
+from django.core.paginator import Paginator
 from django.db.models import Sum
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views import View
+from django.views.generic import FormView
 
 from charity.forms import CategoryForm, AjaxForm
 from charity.models import Donation, Institution, Category
@@ -12,10 +14,10 @@ class LandingPageView(View):
         fundations = Institution.objects.filter(type=Institution.FUNDATION)
 
         # list = []
-        # instit = Institution.objects.institution
+        # instit = Institution.objects.all()
         # if instit is not None:
         #     list.append(instit)
-
+        #
         # paginator = Paginator(fundations,5)
         # try:
         #     page = int(request.GET.get("page", "1"))
@@ -41,13 +43,13 @@ class LandingPageView(View):
 
 class AddDonationView(View):
     def get(self, request, *args, **kwargs):
-        form_category = CategoryForm
+        form_class = CategoryForm
 
         ctx = {
             'donations': Donation.objects.all(),
             'categories': Category.objects.all(),
             'institutions': Institution.objects.all(),
-            'form_category': form_category,
+            'form_category': form_class,
         }
         return render(request, 'form.html', ctx)
 
@@ -60,9 +62,9 @@ class AddDonationView(View):
         return render(request, 'form.html', {'form_category': form_category})
 
 
-class AjaxView(View):
+class AjaxView(FormView):
     form_class = AjaxForm
-    template_name = "ajax.html"
+    template = "ajax.html"
 
     def get(self, *args, **kwargs):
         form = self.form_class()
@@ -72,10 +74,7 @@ class AjaxView(View):
     def post(self, *args, **kwargs):
         if self.request.is_ajax():
             form = self.form_class(self.request.POST)
-            import pdb; pdb.set_trace()
-            pdb.set_trace()
             if form.is_valid():
-                print(form.data)
                 form.save()
                 return JsonResponse({}, status=200)
             return JsonResponse({}, status=400)

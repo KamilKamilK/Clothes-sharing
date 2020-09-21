@@ -93,7 +93,11 @@
                 </div>
 
                 <div class="col">
-                    <div class="text">{{fundation.categories}}</div>
+                    <div class="text">
+                        {% for category in foundation.categories.all %}
+                                    {{ category.name }}
+                                {% endfor %}
+                    </div>
                 </div>
             </li>
                 {% endfor%}
@@ -134,11 +138,14 @@
             <li>
                 <div class="col">
                     <div class="title">Organizacja {{organization.name}}</div>
-                    <div class="subtitle">{{organization.description}}</div>
+                    <div class="subtitle">{{organizations.description}}</div>
                 </div>
 
                 <div class="col">
-                    <div class="text">{{organization.categories}}</div>
+                    <div class="text">
+                        {%for category in organizations.categories.all%}</div>
+                    {{category.name}}
+                    {%endfor%}
                 </div>
             </li>
 
@@ -170,7 +177,11 @@
                 </div>
 
                 <div class="col">
-                    <div class="text">{{collection.categories}}</div>
+                    <div class="text">
+                        {% for category in collections.categories.all %}
+                                    {{ category.name }}
+                                {% endfor %}
+                    </div>
                 </div>
             </li>
                 {% endfor%}

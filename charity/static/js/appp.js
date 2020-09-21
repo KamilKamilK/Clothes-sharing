@@ -222,7 +222,7 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$step.innerText = this.currentStep;
 
       // TODO: Validation
-      document.querySelector('#btn2').addEventListener('click', e=>{
+       document.querySelector('#btn2').addEventListener('click', e=>{
         let selectedCategory = [];
         let checkedBoxes = document.querySelectorAll('input[name=categories]:checked');
 
@@ -238,35 +238,6 @@ document.addEventListener("DOMContentLoaded", function() {
         })
       })
 
-    //   function objectifyForm(formArray) {
-    // //serialize data function
-    // var returnArray = {};
-    // for (var i = 0; i < formArray.length; i++){
-    //     returnArray[formArray[i]['name']] = formArray[i]['value'];
-    // }
-    // return returnArray;
-    // }
-
-
-      // if (this.currentStep === 3) {
-      //   let checkboxes = document.querySelectorAll('input[name=categories]');
-      //   let selectedCategory = [];
-      //   for (let i=0; i<checkboxes.length; i++) {
-      //     if (checkboxes[i].checked) {
-      //       selectedCategory.push(checkboxes[i].value)
-      //     }
-      //   }
-      //   let institution = document.querySelectorAll('input[name=isntitution]');
-      //   for (let i=0; i < institution.length; i ++) {
-      //     let institutionCategories = institution[i].dataset.category.split(',')
-      //     institution[i].parentElement.parentElement.style.display = 'block';
-      //
-      //     if (institutionCategories.filter(value => selectedCategory.includes(value)).length){
-      //       institution[i].parentElement.parentElement.style.display = 'none';
-      //     }
-      //   }
-      // }
-
       this.slides.forEach(slide => {
         slide.classList.remove("active");
 
@@ -279,11 +250,11 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$step.parentElement.hidden = this.currentStep >= 6;
 
       // TODO: get data from inputs and show them in summary
-      let bags_text = document.querySelectorAll(".summary--text")[0];
+       let bags_text = document.querySelectorAll(".summary--text")[0];
       let bags = document.querySelector('input[name="quantity"]').value;
       bags_text.innerHTML = bags + " worków w dobrym stanie dla dzieci";
-    }
 
+    }
 
     /**
      * Submit form

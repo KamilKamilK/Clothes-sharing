@@ -11,17 +11,19 @@ class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
         fields = ['name']
-        # widgets = {
-        #     'name': forms.CheckboxSelectMultiple()
-        # }
+        widgets = {
+            'name': forms.CheckboxSelectMultiple()
+        }
 
-    def __init__(self, *args, **kwargs):
-        super(CategoryForm, self).__init__(*args, **kwargs)
-        self.fields['name'] = ModelChoiceField(queryset=Category.objects.all())
+    # def __init__(self, *args, **kwargs):
+    #     super(CategoryForm, self).__init__(*args, **kwargs)
+    #     self.fields['name'] = ModelChoiceField(queryset=Category.objects.all())
 
     # widgets = {
     #     'categories' : forms.MultipleChoiceField(widget=forms.MultipleChoiceField, choices=Category.objects.all())
     # }
+
+
 
 class AjaxForm(forms.ModelForm):
     class Meta:
