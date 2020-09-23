@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.views import View
 from django.views.generic import FormView
 
-from charity.forms import CategoryForm, AjaxForm
+from charity.forms import AjaxForm
 from charity.models import Donation, Institution, Category
 
 
@@ -43,23 +43,13 @@ class LandingPageView(View):
 
 class AddDonationView(View):
     def get(self, request, *args, **kwargs):
-        form_class = CategoryForm
-
         ctx = {
             'donations': Donation.objects.all(),
             'categories': Category.objects.all(),
             'institutions': Institution.objects.all(),
-            'form_category': form_class,
+
         }
         return render(request, 'form.html', ctx)
-
-    def post(self, request, *args, **kwargs):
-        form_category = CategoryForm(request.POST)
-        if form_category.is_valid():
-            form_category.save()
-            name = form_category.cleaned_data.get('name')
-
-        return render(request, 'form.html', {'form_category': form_category})
 
 
 class AjaxView(FormView):

@@ -222,50 +222,22 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$step.innerText = this.currentStep;
 
       // TODO: Validation
-      document.querySelector('#btn2').addEventListener('click', e=>{
-        let selectedCategory = [];
-        let checkedBoxes = document.querySelectorAll('input[name=categories]:checked');
-
-        let institutions = document.querySelector("div[data-step='3']").querySelectorAll('.form-group.form-group--checkbox');
-        checkedBoxes.forEach(el => {
-          selectedCategory.push(el.value)
-        })
-        institutions.forEach(el=>{
-          let category = el.querySelector('.description > div:nth-child(3)').textContent
-          if (!selectedCategory.includes(category)) {
-            el.style.display = 'none'
-          }
-        })
-      })
-
-    //   function objectifyForm(formArray) {
-    // //serialize data function
-    // var returnArray = {};
-    // for (var i = 0; i < formArray.length; i++){
-    //     returnArray[formArray[i]['name']] = formArray[i]['value'];
-    // }
-    // return returnArray;
-    // }
-
-
-      // if (this.currentStep === 3) {
-      //   let checkboxes = document.querySelectorAll('input[name=categories]');
+      //  document.querySelector('#step1_btn').addEventListener('click', e=>{
       //   let selectedCategory = [];
-      //   for (let i=0; i<checkboxes.length; i++) {
-      //     if (checkboxes[i].checked) {
-      //       selectedCategory.push(checkboxes[i].value)
-      //     }
-      //   }
-      //   let institution = document.querySelectorAll('input[name=isntitution]');
-      //   for (let i=0; i < institution.length; i ++) {
-      //     let institutionCategories = institution[i].dataset.category.split(',')
-      //     institution[i].parentElement.parentElement.style.display = 'block';
+      //   let checkedBoxes = document.querySelectorAll('input[name=categories]:checked');
       //
-      //     if (institutionCategories.filter(value => selectedCategory.includes(value)).length){
-      //       institution[i].parentElement.parentElement.style.display = 'none';
+      //   let institutions = document.querySelector("div[data-step='3']").querySelectorAll('.form-group.form-group--checkbox');
+      //   checkedBoxes.forEach(el => {
+      //     selectedCategory.push(el.value)
+      //   })
+      //   institutions.forEach(el=>{
+      //     let category = el.querySelector('.subtitle > div:nth-child(1)').textContent
+      //     console.log(category);
+      //     if (selectedCategory.includes(category)) {
+      //       el.style.display = 'none'
       //     }
-      //   }
-      // }
+      //   })
+      // })
 
       this.slides.forEach(slide => {
         slide.classList.remove("active");
@@ -279,11 +251,11 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$step.parentElement.hidden = this.currentStep >= 6;
 
       // TODO: get data from inputs and show them in summary
-      let bags_text = document.querySelectorAll(".summary--text")[0];
-      let bags = document.querySelector('input[name="quantity"]').value;
-      bags_text.innerHTML = bags + " worków w dobrym stanie dla dzieci";
-    }
+       let bags_text = document.querySelectorAll(".summary--text")[0];
+      let bags = document.querySelector('input[name="bags_quantity"]').value;
+      bags_text.innerHTML = bags + " worków z darowiznami";
 
+    }
 
     /**
      * Submit form
@@ -313,11 +285,12 @@ document.querySelector('#step4_btn').addEventListener('click',_=>{
       form_dict_data[el.name] = el.value
     }
   });
+
   console.log(form_dict_data);
   document.querySelector('#form_categories').innerHTML = form_dict_data['quantity'] + 'worków' +
       form_dict_data['categories'].join('oraz').toLowerCase();
 
-  document.querySelector('#form_institution').innerHTML = 'Dla' + form_dict_data['organization'];
+  document.querySelector('#form_institution').innerHTML = 'Organizacja :' + form_dict_data['organization'];
   document.querySelector('#form_adress > li:nth-child(1)').innerHTML = form_dict_data['address'];
   document.querySelector('#form_adress > li:nth-child(2)').innerHTML = form_dict_data['city'];
   document.querySelector('#form_adress > li:nth-child(3)').innerHTML = form_dict_data['zip_code'];
@@ -334,7 +307,7 @@ $('form').on('submit', function (e){
   e.preventDefault();
 
   $.ajax({
-    type: 'GET',
+    type: 'POST',
     url: '/ajax',
     data: serialized_data,
   })

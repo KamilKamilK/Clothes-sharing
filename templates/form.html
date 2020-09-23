@@ -3,7 +3,6 @@
 {% load static %}
 
 
-
 {%block header%}
 <header class="header--form-page">
     {%endblock%}
@@ -75,27 +74,27 @@
     <div class="form--steps-container">
         <div class="form--steps-counter">Krok <span>1</span>/5</div>
 
-        <form action="" method="post">
+        <form id="form" action="form-confirmation.html" method="post">
 
-                     {% csrf_token %}
-          <!-- STEP 1: class .active is switching steps -->
- <div data-step="1" class="active">
-            <h3>Zaznacz co chcesz oddać:</h3>
+            {% csrf_token %}
+            <!-- STEP 1: class .active is switching steps -->
+            <div data-step="1" class="active">
+                <h3>Zaznacz co chcesz oddać:</h3>
                 {% for category in categories %}
-                    <div class="form-group form-group--checkbox">
-                      <label>
+                <div class="form-group form-group--checkbox">
+                    <label>
                         <input
-                          type="checkbox"
-                          name="categories"
-                          value="{{ category.id }}"/>
+                                type="checkbox"
+                                name="categories"
+                                value="{{ category.id }}"/>
                         <span class="checkbox"></span>
                         <span class="description" id="{{ forloop.counter }}">{{ category.name }}</span>
-                      </label>
-                    </div>
+                    </label>
+                </div>
                 {% endfor %}
 
                 <div class="form-group form-group--buttons">
-                    <button type="button" class="btn next-step">Dalej</button>
+                    <button type="button" id="step1_btn" class="btn next-step">Dalej</button>
                 </div>
             </div>
 
@@ -106,13 +105,13 @@
                 <div class="form-group form-group--inline">
                     <label>
                         Liczba 60l worków:
-                        <input type="number" name="quantity" step="1" min="1"/>
+                        <input type="number" name="bags_quantity" step="1" min="1"/>
                     </label>
                 </div>
 
                 <div class="form-group form-group--buttons">
                     <button type="button" class="btn prev-step">Wstecz</button>
-                    <button id="btn2" type="button" class="btn next-step">Dalej</button>
+                    <button id="step2_btn" type="button" class="btn next-step">Dalej</button>
                 </div>
             </div>
 
@@ -129,8 +128,10 @@
                         <span class="description">
                   <div class="title">Fundacja {{institution.name}}</div>
                   <div class="subtitle">
-                    Cel i misja: {{institution.description}}
-                  </div>
+                    Cel i misja: {{institution.description}}</div>
+                                  {% for category in institution.categories.all %}
+                            <div style="display:block ">{{ category.id }}</div>
+                        {% endfor %}
                 </span>
                     </label>
                     {%endfor%}
@@ -144,59 +145,59 @@
             </div>
 
             <!-- STEP 4 -->
-          <div data-step="4">
-            <h3>Podaj adres oraz termin odbioru rzecz przez kuriera:</h3>
+            <div data-step="4">
+                <h3>Podaj adres oraz termin odbioru rzecz przez kuriera:</h3>
 
-            <div class="form-section form-section--columns">
-              <div class="form-section--column">
-                <h4>Adres odbioru</h4>
-                <div class="form-group form-group--inline">
-                  <label> Ulica <input type="text" name="address" /> </label>
+                <div class="form-section form-section--columns">
+                    <div class="form-section--column">
+                        <h4>Adres odbioru</h4>
+                        <div class="form-group form-group--inline">
+                            <label> Ulica <input type="text" name="address"/> </label>
+                        </div>
+
+                        <div class="form-group form-group--inline">
+                            <label> Miasto <input type="text" name="city"/> </label>
+                        </div>
+
+                        <div class="form-group form-group--inline">
+                            <label>
+                                Kod pocztowy <input type="text" name="zip_code"/>
+                            </label>
+                        </div>
+
+                        <div class="form-group form-group--inline">
+                            <label>
+                                Numer telefonu <input type="phone" name="phone_number"/>
+                            </label>
+                        </div>
+
+                        <input type="hidden" name="user" value='{{ request.user.id }}'/>
+
+                    </div>
+
+                    <div class="form-section--column">
+                        <h4>Termin odbioru</h4>
+                        <div class="form-group form-group--inline">
+                            <label> Data <input type="date" name="pick_up_date"/> </label>
+                        </div>
+
+                        <div class="form-group form-group--inline">
+                            <label> Godzina <input type="time" name="pick_up_time"/> </label>
+                        </div>
+
+                        <div class="form-group form-group--inline">
+                            <label>
+                                Uwagi dla kuriera
+                                <textarea name="pick_up_comment" rows="5"></textarea>
+                            </label>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="form-group form-group--inline">
-                  <label> Miasto <input type="text" name="city" /> </label>
+                <div class="form-group form-group--buttons">
+                    <button type="button" class="btn prev-step">Wstecz</button>
+                    <button id="step4_btn" type="button" class="btn next-step">Dalej</button>
                 </div>
-
-                <div class="form-group form-group--inline">
-                  <label>
-                    Kod pocztowy <input type="text" name="zip_code" />
-                  </label>
-                </div>
-
-                <div class="form-group form-group--inline">
-                  <label>
-                    Numer telefonu <input type="number" name="phone_number" />
-                  </label>
-                </div>
-
-                  <input type="hidden" name="user" value='' />
-
-              </div>
-
-              <div class="form-section--column">
-                <h4>Termin odbioru</h4>
-                <div class="form-group form-group--inline">
-                  <label> Data <input type="date" name="pick_up_date" /> </label>
-                </div>
-
-                <div class="form-group form-group--inline">
-                  <label> Godzina <input type="time" name="pick_up_time" /> </label>
-                </div>
-
-                <div class="form-group form-group--inline">
-                  <label>
-                    Uwagi dla kuriera
-                    <textarea name="pick_up_comment" rows="5"></textarea>
-                  </label>
-                </div>
-              </div>
             </div>
-            <div class="form-group form-group--buttons">
-              <button type="button" class="btn prev-step">Wstecz</button>
-              <button id="step4_btn" type="button" class="btn next-step">Dalej</button>
-            </div>
-          </div>
 
             <!-- STEP 5 -->
             <div data-step="5">
@@ -208,16 +209,12 @@
                         <ul>
                             <li>
                                 <span class="icon icon-bag"></span>
-                                <span class="summary--text"
-                                >4 worki ubrań w dobrym stanie dla dzieci</span
-                                >
+                                <span class="summary--text" id="form_categories"></span>
                             </li>
 
                             <li>
-                                <span class="icon icon-hand"></span>
-                                <span class="summary--text"
-                                >Dla fundacji "Mam marzenie" w Warszawie</span
-                                >
+                                <span class="icon icon-bag"></span>
+                                <span class="summary--text" id="form_institution"></span>
                             </li>
                         </ul>
                     </div>
@@ -225,7 +222,7 @@
                     <div class="form-section form-section--columns">
                         <div class="form-section--column">
                             <h4>Adres odbioru:</h4>
-                            <ul>
+                            <ul id="form_address">
                                 <li>Prosta 51</li>
                                 <li>Warszawa</li>
                                 <li>99-098</li>
@@ -235,7 +232,7 @@
 
                         <div class="form-section--column">
                             <h4>Termin odbioru:</h4>
-                            <ul>
+                            <ul id="form_pickup_data">
                                 <li>13/12/2018</li>
                                 <li>15:40</li>
                                 <li>Brak uwag</li>
@@ -246,7 +243,7 @@
 
                 <div class="form-group form-group--buttons">
                     <button type="button" class="btn prev-step">Wstecz</button>
-                    <button type="submit" class="btn">Potwierdzam</button>
+                    <button type="submit" id="step5_btn" class="btn">Potwierdzam</button>
                 </div>
             </div>
         </form>
