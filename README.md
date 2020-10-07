@@ -1,5 +1,5 @@
 Clothes-sharing
-October 2020 – obecnie
+October 2020 – now
 
 Project description:
 The goal of the project is a place where every one can donate unnecessary things to trusted organizations.
