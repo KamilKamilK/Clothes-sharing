@@ -127,3 +127,5 @@ LOGIN_REDIRECT_URL = 'landingPage'
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
 AUTHENTICATION_BACKENDS = ['accounts.backends.EmailBackend']
+
+APPEND_SLASH=False

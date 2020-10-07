@@ -1,0 +1,10 @@
+
+{% extends 'base.html' %}
+{% block header %}
+      <div class="slogan container container--90 text-center">
+        <h1>Imię: {{ object.first_name }}<br>
+            Nazwisko: {{ object.last_name }}<br>
+            E-mail: {{ object.email }}
+        </h1>
+      </div>
+{% endblock header %}

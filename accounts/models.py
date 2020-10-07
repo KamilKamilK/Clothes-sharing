@@ -39,6 +39,12 @@ class UserManager(BaseUserManager):
 
 class CustomUser(AbstractUser):
     email = models.EmailField(_('email address'), unique=True)
+    username = None
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
+
+    objects = UserManager()
+
+    def get_profile_url(self):
+        return f"/profil/{self.pk}"

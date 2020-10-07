@@ -2,6 +2,8 @@ document.addEventListener("DOMContentLoaded", function() {
   /**
    * HomePage - Help section
    */
+
+
   class Help {
     constructor($el) {
       this.$el = $el;
@@ -222,18 +224,19 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$step.innerText = this.currentStep;
 
       // TODO: Validation
-      //  document.querySelector('#step1_btn').addEventListener('click', e=>{
+      //  document.querySelector('#step2_btn').addEventListener('click', e=>{
       //   let selectedCategory = [];
       //   let checkedBoxes = document.querySelectorAll('input[name=categories]:checked');
-      //
+      //    console.log(checkedBoxes)
       //   let institutions = document.querySelector("div[data-step='3']").querySelectorAll('.form-group.form-group--checkbox');
       //   checkedBoxes.forEach(el => {
       //     selectedCategory.push(el.value)
+      //     console.log(el.value)
       //   })
       //   institutions.forEach(el=>{
-      //     let category = el.querySelector('.subtitle > div:nth-child(1)').textContent
+      //     let category = el.querySelector('.description > div:nth-child(3)').textContent
       //     console.log(category);
-      //     if (selectedCategory.includes(category)) {
+      //     if (!selectedCategory.includes(category)) {
       //       el.style.display = 'none'
       //     }
       //   })
@@ -291,24 +294,24 @@ document.querySelector('#step4_btn').addEventListener('click',_=>{
       form_dict_data['categories'].join('oraz').toLowerCase();
 
   document.querySelector('#form_institution').innerHTML = 'Organizacja :' + form_dict_data['organization'];
-  document.querySelector('#form_adress > li:nth-child(1)').innerHTML = form_dict_data['address'];
-  document.querySelector('#form_adress > li:nth-child(2)').innerHTML = form_dict_data['city'];
-  document.querySelector('#form_adress > li:nth-child(3)').innerHTML = form_dict_data['zip_code'];
-  document.querySelector('#form_adress > li:nth-child(4)').innerHTML = form_dict_data['phone_number'];
+  document.querySelector('#form_address > li:nth-child(1)').innerHTML = form_dict_data['address'];
+  document.querySelector('#form_address > li:nth-child(2)').innerHTML = form_dict_data['city'];
+  document.querySelector('#form_address > li:nth-child(3)').innerHTML = form_dict_data['zip_code'];
+  document.querySelector('#form_address > li:nth-child(4)').innerHTML = form_dict_data['phone_number'];
 
    document.querySelector("#form_pickup_data > li:nth-child(1)").innerHTML = form_dict_data["pick_up_date"];
    document.querySelector("#form_pickup_data > li:nth-child(2)").innerHTML = form_dict_data["pick_up_time"];
    document.querySelector("#form_pickup_data > li:nth-child(3)").innerHTML = form_dict_data["pick_up_comment"];
 })
 
-$('form').on('submit', function (e){
-  let serialized_data = $(this).serialize();
-  console.log(serialized_data)
+$('#form').on('submit', function (e){
+    let serialized_data = $(this).serialize();
+    console.log(serialized_data)
   e.preventDefault();
 
   $.ajax({
     type: 'POST',
-    url: '/ajax',
+    url: '/ajax/',
     data: serialized_data,
   })
 })

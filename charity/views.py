@@ -1,7 +1,7 @@
 from django.core.paginator import Paginator
 from django.db.models import Sum
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import FormView
 
@@ -51,15 +51,18 @@ class AddDonationView(View):
         }
         return render(request, 'form.html', ctx)
 
+    def post(self, request, *args, **kwargs):
+        return redirect('form-confirmation.html')
+
 
 class AjaxView(FormView):
     form_class = AjaxForm
-    template = "ajax.html"
+    template = "form.html"
 
     def get(self, *args, **kwargs):
         form = self.form_class()
         donations = Donation.objects.all()
-        return render(self.request, self.template_name, {"form": form, "donations": donations})
+        return render(self.request, self.template, {"form": form, "donations": donations})
 
     def post(self, *args, **kwargs):
         if self.request.is_ajax():
@@ -69,3 +72,5 @@ class AjaxView(FormView):
                 return JsonResponse({}, status=200)
             return JsonResponse({}, status=400)
         return JsonResponse({}, status=400)
+
+
