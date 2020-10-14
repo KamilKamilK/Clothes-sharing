@@ -255,8 +255,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
       // TODO: get data from inputs and show them in summary
        let bags_text = document.querySelectorAll(".summary--text")[0];
-      let bags = document.querySelector('input[name="bags_quantity"]').value;
-      bags_text.innerHTML = bags + " worków z darowiznami";
+      let bags = document.querySelector('input[name="quantity"]').value;
+      bags_text.innerHTML = bags + " worków z darowiznami dla fundacji";
 
     }
 
@@ -293,7 +293,7 @@ document.querySelector('#step4_btn').addEventListener('click',_=>{
   document.querySelector('#form_categories').innerHTML = form_dict_data['quantity'] + 'worków' +
       form_dict_data['categories'].join('oraz').toLowerCase();
 
-  document.querySelector('#form_institution').innerHTML = 'Organizacja :' + form_dict_data['organization'];
+  document.querySelector('#form_institution').innerHTML = 'Organizacja :' + form_dict_data['institution'];
   document.querySelector('#form_address > li:nth-child(1)').innerHTML = form_dict_data['address'];
   document.querySelector('#form_address > li:nth-child(2)').innerHTML = form_dict_data['city'];
   document.querySelector('#form_address > li:nth-child(3)').innerHTML = form_dict_data['zip_code'];
@@ -313,5 +313,12 @@ $('#form').on('submit', function (e){
     type: 'POST',
     url: '/ajax/',
     data: serialized_data,
+    success: function (data){
+      window.location.href = data.url
+    },
   })
 })
+
+// jQuery( document ).ajaxSuccess(function( event, xhr, settings ) {
+//   window.location.href = 'http://127.0.0.1:8000/form-confirmation.html';
+// });

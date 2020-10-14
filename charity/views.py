@@ -2,8 +2,9 @@ from django.core.paginator import Paginator
 from django.db.models import Sum
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.views import View
-from django.views.generic import FormView
+from django.views.generic import FormView, TemplateView
 
 from charity.forms import AjaxForm
 from charity.models import Donation, Institution, Category
@@ -47,17 +48,17 @@ class AddDonationView(View):
             'donations': Donation.objects.all(),
             'categories': Category.objects.all(),
             'institutions': Institution.objects.all(),
-
         }
         return render(request, 'form.html', ctx)
 
-    def post(self, request, *args, **kwargs):
-        return redirect('form-confirmation.html')
+    # def post(self, request, *args, **kwargs):
+    #     return redirect('form-confirmation.html')
 
 
 class AjaxView(FormView):
     form_class = AjaxForm
     template = "form.html"
+    success_url = 'form-confirmation.html'
 
     def get(self, *args, **kwargs):
         form = self.form_class()
@@ -69,8 +70,10 @@ class AjaxView(FormView):
             form = self.form_class(self.request.POST)
             if form.is_valid():
                 form.save()
-                return JsonResponse({}, status=200)
+                return JsonResponse({'url': reverse('confirmation')}, status=200)
+            print(form.errors)
             return JsonResponse({}, status=400)
         return JsonResponse({}, status=400)
 
-
+class ConfirmationView(TemplateView):
+    template_name = 'form-confirmation.html'

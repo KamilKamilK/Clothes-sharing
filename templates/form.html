@@ -74,7 +74,7 @@
     <div class="form--steps-container">
         <div class="form--steps-counter">Krok <span>1</span>/5</div>
 
-        <form id="form" action="form-confirmation.html" method="post">
+        <form id="form" action="" method="post">
 
             {% csrf_token %}
             <!-- STEP 1: class .active is switching steps -->
@@ -105,7 +105,7 @@
                 <div class="form-group form-group--inline">
                     <label>
                         Liczba 60l worków:
-                        <input type="number" name="bags_quantity" step="1" min="1"/>
+                        <input type="number" name="quantity" step="1" min="1"/>
                     </label>
                 </div>
 
@@ -123,7 +123,7 @@
                 <div class="form-group form-group--checkbox">
                     {%for institution in institutions%}
                     <label>
-                        <input type="radio" name="organization" value="{{institution.id}}"/>
+                        <input type="radio" name="institution" value="{{institution.id}}"/>
                         <span class="checkbox radio"></span>
                         <span class="description">
                   <div class="title">Fundacja {{institution.name}}</div>

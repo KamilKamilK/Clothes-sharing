@@ -23,6 +23,8 @@ urlpatterns = [
 
     path('', views.LandingPageView.as_view(), name='landingPage'),
     path('donation/', views.AddDonationView.as_view(), name='donation'),
-    path("ajax/", views.AjaxView.as_view(), name="ajax")
+    path("ajax/", views.AjaxView.as_view(), name="ajax"),
+    path("lubie_placki/", views.ConfirmationView.as_view(), name="confirmation"),
+
 
 ]
